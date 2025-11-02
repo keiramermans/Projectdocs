@@ -1,0 +1,73 @@
+/* === Kleurenpalet geïnspireerd op het vertrekscherm === */
+:root {
+  --kleur-hoofdtitel: #6a1a36;   /* Donker bordeaux (bovenbalk) */
+  --kleur-achtergrond: #f3eaea;  /* Lichtroze achtergrond */
+  --kleur-rij: #e1c5c5;          /* Afwisselende rijkleur */
+  --kleur-tekst: #000000;        /* Zwarte tekst */
+  --kleur-accent: #a70000;       /* Rood accent (vertraging) */
+}
+
+/* === Algemene opmaak === */
+body {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--kleur-achtergrond);
+  color: var(--kleur-tekst);
+  margin: 0;
+  padding: 0;
+}
+
+/* === Hoofdtitel === */
+.header {
+  background-color: var(--kleur-hoofdtitel);
+  color: white;
+  text-align: center;
+  padding: 1.2rem 0;
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* === Tabelstijl === */
+.departure-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1.1rem;
+}
+
+.departure-table thead {
+  background-color: white;
+  color: var(--kleur-hoofdtitel);
+  font-weight: bold;
+}
+
+.departure-table th,
+.departure-table td {
+  padding: 0.8rem 1.2rem;
+  text-align: left;
+}
+
+.departure-table tbody tr:nth-child(even) {
+  background-color: var(--kleur-rij);
+}
+
+.departure-table tbody tr:nth-child(odd) {
+  background-color: var(--kleur-achtergrond);
+}
+
+/* === Kolom specifieke opmaak === */
+.departure-table td.delay {
+  color: var(--kleur-accent);
+  font-weight: bold;
+}
+
+/* === Responsive ontwerp === */
+@media (max-width: 768px) {
+  .departure-table {
+    font-size: 0.9rem;
+  }
+  .header {
+    font-size: 1.5rem;
+  }
+
+
+}
