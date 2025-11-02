@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NMBS/SNCB - Vertrek / Départ</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            font-size: 20px; /* base font-size for everything except header */
+        }
+
+        .header {
+            background-color: #6b2142;
+            color: #fef5f8;
+            padding: 20px 20px;
+            text-align: left;
+            border-bottom: 4px solid #571a35;
+            display: flex;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 36px; /* keep VERTREK / DÉPART larger */
+            font-weight: bold;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .board {
+            background-color: white;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background-color: #e5e5e5;
+            border-bottom: 2px solid #d0d0d0;
+        }
+
+        th {
+            padding: 16px;
+            text-align: left;
+            font-size: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: rgba(99, 3, 46, 0.87); /* #63032E at 87% opacity */
+        }
+
+        /* align header text with the time (not with the train-number) */
+        th:first-child {
+            /* train-number width (56) + gap (12) + original padding (16) = 84px */
+            padding-left: 84px;
+        }
+
+        td {
+            padding: 20px 16px;
+        }
+
+        td:first-child {
+            /* keep normal cell padding so train-number sits in its slot */
+            padding-left: 16px;
+        }
+
+        .time-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            justify-content: flex-start;
+        }
+
+        .train-number {
+            display: inline-block;
+            width: 56px;        /* fixed slot for the train number */
+            text-align: left;
+            font-size: 14px;
+            font-weight: 500;
+            color: #000000;
+            flex: 0 0 56px;
+        }
+
+        .time {
+            display: inline-block;
+            font-size: 20px;
+            color: #1f1f1f;
+        }
+
+        .delay {
+            font-size: 18px;
+            font-weight: bold;
+            color: #c41e3a;
+        }
+
+        .destination {
+            font-size: 20px;
+            color: #1f1f1f;
+        }
+
+        .platform {
+            text-align: center;
+            font-size: 20px;
+            font-weight: 600;
+            color: #1f1f1f;
+        }
+
+        /* Force uniform font family + size for all board content (overrides previous sizes) */
+        .container,
+        .board,
+        table,
+        thead,
+        tbody,
+        th,
+        td,
+        .time-cell,
+        .train-number,
+        .time,
+        .delay,
+        .destination,
+        .platform {
+            font-family: Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            font-size: 20px;
+        }
+
+        /* Keep responsive adjustments but ensure header h1 remains unaffected */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 24px;
+            }
+
+            /* smaller uniform size on narrow screens */
+            .container,
+            .board,
+            table,
+            thead,
+            tbody,
+            th,
+            td,
+            .time-cell,
+            .train-number,
+            .time,
+            .delay,
+            .destination,
+            .platform {
+                font-size: 16px;
+            }
+
+            .train-number {
+                width: 40px;
+                flex: 0 0 40px;
+            }
+
+            /* train-number (40) + gap (12) + padding (12) => ~64 */
+            th:first-child {
+                padding-left: 64px;
+            }
+        }
+
+        /* alternating row stripes: darker = slightly less bright */
+        tbody tr:nth-child(odd) {
+            background-color: #E9D6D6; /* less bright than #EFDBDB */
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #F3E9E9; /* lighter stripe */
+        }
+
+        tbody tr:hover {
+            background-color: #f6e8ee;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>VERTREK / DÉPART</h1>
+    </header>
+
+    <div class="container">
+        <div class="board">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tijd / Temps</th>
+                        <th>Bestemming / Destination</th>
+                        <th>Spoor / Voie</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="time-cell">
+                                <span class="train-number">S12</span>
+                                <span class="time">13:34</span>
+                            </div>
+                        </td>
+                        <td><span class="destination">Mol</span></td>
+                        <td><span class="platform">25</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="time-cell">
+                                <span class="train-number">IC14</span>
+                                <span class="time">13:47</span>
+                                <span class="delay">+6</span>
+                            </div>
+                        </td>
+                        <td><span class="destination">Brussel-Zuid/Bruxelles-Midi</span></td>
+                        <td><span class="platform">8</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="time-cell">
+                                <span class="train-number">S23</span>
+                                <span class="time">14:03</span>
+                            </div>
+                        </td>
+                        <td><span class="destination">Oostende/Ostende</span></td>
+                        <td><span class="platform">15</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="time-cell">
+                                <span class="train-number">IC7</span>
+                                <span class="time">14:25</span>
+                            </div>
+                        </td>
+                        <td><span class="destination">Hasselt</span></td>
+                        <td><span class="platform">11</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="time-cell">
+                                <span class="train-number">IC5</span>
+                                <span class="time">14:34</span>
+                            </div>
+                        </td>
+                        <td><span class="destination">Leuven/Louvain</span></td>
+                        <td><span class="platform">7</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="time-cell">
+                                <span class="train-number">IC21</span>
+                                <span class="time">14:47</span>
+                                <span class="delay">+2</span>
+                            </div>
+                        </td>
+                        <td><span class="destination">Antwerpen-Centraal / Anvers-Central</span></td>
+                        <td><span class="platform">3</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="time-cell">
+                                <span class="train-number">S4</span>
+                                <span class="time">15:02</span>
+                            </div>
+                        </td>
+                        <td><span class="destination">Mechelen / Malines</span></td>
+                        <td><span class="platform">12</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="time-cell">
+                                <span class="train-number">IC8</span>
+                                <span class="time">15:18</span>
+                            </div>
+                        </td>
+                        <td><span class="destination">Gent-Sint-Pieters / Gand-Saint-Pierre</span></td>
+                        <td><span class="platform">6</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

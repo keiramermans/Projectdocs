@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wayfinding Display - Station Navigation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', 'Arial', sans-serif;
+            background-color: #F3E9E9; /* updated to requested color */
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .wayfinding-container {
+            width: 100%;
+            max-width: 1200px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .section {
+            flex: 1;
+            background-color: #63032E; /* changed to requested color behind the text */
+            border-radius: 0.375rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2rem 4rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section:hover {
+            background-color: #571a35; /* slightly darker on hover */
+        }
+
+        .section:active {
+            background-color: #471428; /* active state */
+        }
+
+        .section-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .section-text {
+            color: white;
+            font-size: 3rem;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+
+        .arrow {
+            color: white;
+            font-size: 5rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        /* Track section - arrow on right, text on left */
+        .track-section {
+            flex-direction: row;
+        }
+
+        .track-section .section-content {
+            align-items: flex-start;
+            flex: 1;
+        }
+
+        /* Exit section - arrow on left, text on right */
+        .exit-section {
+            flex-direction: row;
+        }
+
+        .exit-section .section-content {
+            align-items: flex-end;
+            flex: 1;
+            order: 2;
+        }
+
+        .exit-section .arrow {
+            order: 1;
+        }
+
+        /* Accessibility section */
+        .accessibility-section {
+            cursor: default;
+        }
+
+        .accessibility-section:hover {
+            background-color: #63032E; /* keep accessibility hover consistent */
+        }
+
+        .accessibility-text {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .accessibility-text span {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+
+        .accessibility-icons {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
+
+        .icon {
+            width: 3.5rem;
+            height: 3.5rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon svg {
+            width: 100%;
+            height: 100%;
+            stroke: white;
+            stroke-width: 2.5;
+            fill: none;
+        }
+
+        .wc-icon {
+            border: 2px solid white;
+            border-radius: 0.25rem;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .info-icon {
+            cursor: pointer;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .info-icon:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .wayfinding-container {
+                gap: 1.5rem;
+            }
+
+            .section {
+                padding: 1.5rem 2rem;
+            }
+
+            .section-text {
+                font-size: 2rem;
+            }
+
+            .arrow {
+                font-size: 3.5rem;
+            }
+
+            .accessibility-text span {
+                font-size: 1.75rem;
+            }
+
+            .accessibility-icons {
+                gap: 1.5rem;
+            }
+
+            .icon {
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+
+            .wc-icon {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wayfinding-container">
+        <!-- Track 15-20 Section -->
+        <div class="section track-section" onclick="handleTrackClick()">
+            <div class="section-content">
+                <span class="section-text">SPOOR 15-20</span>
+                <span class="section-text">VOIE 15-20</span>
+            </div>
+            <div class="arrow">→</div>
+        </div>
+
+        <!-- Exit Section -->
+        <div class="section exit-section" onclick="handleExitClick()">
+            <div class="arrow">←</div>
+            <div class="section-content">
+                <span class="section-text">UITGANG</span>
+                <span class="section-text">SORTIE</span>
+            </div>
+        </div>
+
+        <!-- Accessibility Section -->
+        <div class="section accessibility-section">
+            <div class="accessibility-text">
+                <span>Toegankelijk</span>
+                <span>Accessible</span>
+            </div>
+            <div class="accessibility-icons">
+                <!-- Wheelchair Icon -->
+                <div class="icon">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="4" r="2"/>
+                        <path d="M19 13v-2c-1.54.02-3.09-.75-4.07-1.83l-1.29-1.43c-.17-.19-.38-.34-.61-.45-.01 0-.01-.01-.02-.01H13c-.35-.2-.75-.3-1.19-.26C10.76 7.11 10 8.04 10 9.09V15c0 1.1.9 2 2 2h5v5h2v-5.5c0-1.1-.9-2-2-2h-3v-3.45c1.29 1.07 3.25 1.94 5 1.95z"/>
+                        <circle cx="12" cy="17" r="5"/>
+                        <path d="M12 12v5"/>
+                    </svg>
+                </div>
+                <!-- WC Icon -->
+                <div class="icon wc-icon">WC</div>
+                <!-- Bicycle Icon -->
+                <div class="icon">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="18.5" cy="17.5" r="3.5"/>
+                        <circle cx="5.5" cy="17.5" r="3.5"/>
+                        <path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                        <path d="M12 17.5V14l-3-3 4-3 2 3h2"/>
+                    </svg>
+                </div>
+                <!-- Info Icon -->
+                <div class="icon info-icon" onclick="handleInfoClick(event)">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 16v-4"/>
+                        <path d="M12 8h.01"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function handleTrackClick() {
+            console.log('Track 15-20 clicked');
+            alert('Navigating to Track 15-20');
+        }
+
+        function handleExitClick() {
+            console.log('Exit clicked');
+            alert('Navigating to Exit');
+        }
+
+        function handleInfoClick(event) {
+            event.stopPropagation();
+            console.log('Info clicked');
+            alert('Accessibility Information');
+        }
+    </script>
+</body>
+</html>
